@@ -52,3 +52,56 @@ npm install --save-dev webpack
 webpack -v
 
 可以看到我现在的版本的3.6.0版本，这是目前（2017/10/28）最新的版本了。出现了版本号，也说明你的webpack安装成功了。
+
+<h2>第02节：让你快速上手一个Demo</h2>
+
+上节课已经安装好了Webpack到电脑上，这节课就开始一个简单的Demo，让你快速上手和熟悉Webpack的基本用法。
+
+建立基本项目结构
+首先进入上节课我们建立的目录,进入后在根目录建立两个文件夹，分别是src文件夹和dist文件夹：
+
+src文件夹：用来存放我们编写的javascript代码，可以简单的理解为用JavaScript编写的模块。
+dist文件夹：用来存放供浏览器读取的文件，这个是webpack打包成的文件。
+你可以理解成src是源码文件，dist是我们编译打包好的文件；一个用于开发环境，一个用于生产环境。
+
+编写程序文件：
+文件夹建立好后，我们在dist文件下手动建立一个index.html文件，并写入下面的代码。
+
+/dist/index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Mr>yang_webpack</title>
+</head>
+<body>
+    <div id="title"></div>
+    <script src="./bundle.js"></script>
+</body>
+</html>
+
+这里引入了一个JavaScript的bundle.js文件。这个文件现在还没有，这是用webpack执行打包命令后生产的文件。我们的index.html写好后，接下来在src文件夹下建立entery.js的文件，用于编写我们的JavaScript代码，也是我们的入口文件。
+
+src/entery.js
+
+document.getElementById('title').innerHTML='Hello Webpack--webpack打包';
+
+第一次Webpack打包
+Webpack其实是可以在终端（命令行）中使用的，基本使用方法如下：
+
+webpack {entry file} {destination for bundled file}
+{entry file}:入口文件的路径，本文中就是src/entery.js的路径；
+{destination for bundled file}:填写打包后存放的路径。
+注意：在命令行中是不需要写{ }的。
+在我写的例子中，终端执行命令如下：
+
+webpack src/entry.js dist/bundle.js
+
+命令执行成功后，会在dist目录下出现bundle.js文件，这时我们就可以在浏览器中预览结果了，网页中显示出了"Hello Webpack--webpack打包"的信息。
+
+总结：
+
+从这个Demo中你会了解到webpack的基本用法和使用过程，并会了命令行打包的方法。
