@@ -1,4 +1,4 @@
-<h2>第01节：认识WebPack的作用/h2>
+<h2>第01节：认识WebPack的作用</h2>
 
 安装WebPack
 WebPack的安装，采用的是命令行npm形式的安装。
