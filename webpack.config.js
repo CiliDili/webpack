@@ -20,6 +20,12 @@ module.exports = {
     },
     module: {
         //模块：解读CSS,图片如何转换，压缩
+        rules: [
+            {
+               test: /\.css$/,
+               use: [ 'style-loader', 'css-loader' ]
+            }
+        ]
     },
     plugins: [
         //插件，用于生产模版和各项功能 ---> 有些需要引入,有些是webapck自带的

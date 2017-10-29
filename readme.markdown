@@ -195,3 +195,73 @@ npm install webpack-dev-server --save-dev
 在npm run server  启动后，它是有一种监控机制的（也叫watch）。它可以监控到我们修改源码，并立即在浏览器里给我们更新。
 
 注意：这里只是我们的webpack3.6版本支持，在3.5版本时要支持热更新还需要一些其他的操作。因为已经有了成熟的3.6版本，我就不再介绍低版本的操作方法。还有一种情况。如果你都设置好了，但是不进行热更新，可能是你系统的问题，在Linux和Ma上支持良好，在Windows上有时会出现问题。
+
+<h2>第05节：模块：CSS文件打包</h2>
+
+Webpack在生产环境中有一个重要的作用就是减少http的请求数，就是把多个文件打包到一个js里，这样请求数就可以减少好多.把我们的CSS文件打包。在学习CSS打包之前，需要先对webpack.config.js里的Loaders配置项进行了解。
+
+Loaders
+Loaders是Webpack最重要的功能之一，他也是Webpack如此盛行的原因。通过使用不同的Loader，Webpack可以的脚本和工具，从而对不同的文件格式进行特定处理。
+
+简单的举几个Loaders使用例子：
+
+可以把SASS文件的写法转换成CSS，而不在使用其他转换工具。
+可以把ES6或者ES7的代码，转换成大多浏览器兼容的JS代码。
+可以把React中的JSX转换成JavaScript代码。
+注意：所有的Loaders都需要在npm中单独进行安装，并在webpack.config.js里进行配置。下面我们对Loaders的配置型简单梳理一下。
+
+test：用于匹配处理文件的扩展名的表达式，这个选项是必须进行配置的；
+use：loader名称，就是你要使用模块的名称，这个选项也必须进行配置，否则报错；
+include/exclude:手动添加必须处理的文件（文件夹）或屏蔽不需要处理的文件（文件夹）（可选）；
+query：为loaders提供额外的设置选项（可选）。
+明白了Loader是什么后，就开始这节课的正题，如何打包CSS文件。
+
+打包CSS文件：
+建立index.css文件
+
+要打包CSS你必须先要有个CSS文件，在/src目录下，我们建立一个css文件夹，在文件夹里建立index.css文件。代码内容如下。
+
+#title {
+    font-size: 20px;
+    color: #bf616a;
+}
+
+CSS文件建立好后，需要引入到入口文件中，才可以打包到，这里我们引入到entry.js中。
+
+import css from './css/index.css';
+
+CSS和引入做好后，我们就需要使用loader来解析CSS文件了，这里我们需要两个解析用的loader，分别是style-loader和css-loader。
+
+style-loader:
+
+它是用来处理css文件中的url()等，npm中的网址：https://www.npmjs.com/package/style-loader
+
+用npm install 进行项目安装：
+
+npm install style-loader --save-dev
+
+css-loader：
+
+它是用来将css插入到页面的style标签。npm中的网址：https://www.npmjs.com/package/css-loader
+
+用npm install 进行项目安装：
+
+npm install --save-dev css-loader
+
+两个loader都下载安装好后，我们就可以配置我们loaders了。
+
+loaders配置：
+
+修改webpack.config.js中module属性中的配置代码如下：
+
+   module:{
+        rules: [
+            {
+              test: /\.css$/,
+              use: [ 'style-loader', 'css-loader' ]
+            }
+          ]
+    },
+这个文件的详细讲解，我们在上面已经提及，如果你还是无法理解可以观看视频。
+
+总结：loader的使用也决定着你webpack水平的高低。
