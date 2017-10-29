@@ -323,3 +323,74 @@ template：是要打包的html模版路径和文件名称。
 总结：
 
 html文件的打包可以有效的区分开发目录和生产目录，在webpack的配置中也要搞清楚哪些配置用于生产环境，哪些配置用于开发环境，避免两种环境的配置冲突。
+
+
+<h2>第08节：图片迈坑：CSS中的图片处理<h2>
+
+在学习Webapck过程中你可能遇到的第一个坑就是CSS中的图片处理。很多webpack新手都在图片的坑中无法自拔（有的小伙伴在开发环境中是可以找到图片的，但是一打包后就找不到图片了，有的小伙伴是不知道如何正确引入html或者css中的图片，导致程序出错
+
+找到图片后在src目录下新建一个images文件夹，把图片放入images文件夹。
+
+在index.html文件中增加一个放置div的标签（需要注意的是这里修改的是src下的index.html文件，不是dist下的，这点新手很容易弄混，要格外注意），代码如下。
+
+<div id="tupian"></div>
+
+编写css文件，把你用的图片作为背景显示。
+
+#tupian{
+   background-image: url(../images/manhua.png);
+   width:466px;
+   height:453px;
+}
+
+
+图片打包需要 --> file-loader、url-loader
+
+安装file-loader和url-loader
+
+npm install --save-dev file-loader url-loader
+
+安装好后我们需要对两个loader进行基本的了解。
+
+<p>file-loader：解决引用路径的问题，拿background样式用url引入背景图来说，我们都知道，webpack最终会将各个模块打包成一个文件，因此我们样式中的url路径是相对入口html页面的，而不是相对于原始css文件所在的路径的。这就会导致图片引入失败。这个问题是用file-loader解决的，file-loader可以解析项目中的url引入（不仅限于css），根据我们的配置，将图片拷贝到相应的路径，再根据我们的配置，修改打包后文件引用路径，使之指向正确的文件。
+</p>
+
+<p>url-loader：如果图片较多，会发很多http请求，会降低页面性能。这个问题可以通过url-loader解决。url-loader会将引入的图片编码，生成dataURl。相当于把图片数据翻译成一串字符。再把这串字符打包到文件中，最终只需要引入这个文件就能访问图片了。当然，如果图片较大，编码会消耗性能。因此url-loader提供了一个limit参数，小于limit字节的文件会被转为DataURl，大于limit的还会使用file-loader进行copy。
+</p>
+
+配置url-loader
+
+我们安装好后，就可以使用这个loader了，记得在loader使用时不需要用require引入，在plugins才需要使用require引入。
+
+webpack.config.js文件
+
+//模块：例如解读CSS,图片如何转换，压缩
+module:{
+    rules: [
+        {
+          test: /\.css$/,
+          use: [ 'style-loader', 'css-loader' ]
+        },{
+           test:/\.(png|jpg|gif)/ ,
+           use:[{
+               loader:'url-loader',
+               options:{
+                   limit:500000
+               }
+           }]
+        }
+      ]
+},
+test:/\.(png|jpg|gif)/是匹配图片文件后缀名称。
+use：是指定使用的loader和loader的配置参数。
+limit：是把小于500000B的文件打成Base64的格式，写入JS。
+写好后就可以使用webpack进行打包了，这回你会发现打包很顺利的完成了。具体的Base64的格式，你可以查看视频中的样子。
+
+为什么只使用了url-loader
+大家发现我们并没有在webpack.config.js中使用file-loader，但是依然打包成功了。我们需要了解file-loader和url-loader的关系。url-loader和file-loader是什么关系呢？简答地说，url-loader封装了file-loader。url-loader不依赖于file-loader，即使用url-loader时，只需要安装url-loader即可，不需要安装file-loader，因为url-loader内置了file-loader。通过上面的介绍，我们可以看到，url-loader工作分两种情况：
+
+1.文件大小小于limit参数，url-loader将会把文件转为DataURL（Base64格式）；
+
+2.文件大小大于limit，url-loader会调用file-loader进行处理，参数也会直接传给file-loader。
+
+也就是说，其实我们只安装一个url-loader就可以了。但是为了以后的操作方便，我们这里就顺便安装上file-loader。
