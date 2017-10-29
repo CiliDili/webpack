@@ -287,3 +287,39 @@ plugins:[
 ],
 
 这时候在终端中使用webpack进行打包，你会发现JS代码已经被压缩了。
+
+
+<h2>第07节：插件配置：HTML文件的发布</h2>
+
+---> src文件打包生成dist目录文件
+
+打包HTML文件
+我们先把dist中的html文件剪切到src目录中，并去掉我们的JS引入代码（webpack会自动为我们引入JS），因为这才是我们真实工作的目录文件结构。
+
+然后我们配置webpack.config.js文件，先引入我们的html-webpack-plugin插件。
+
+const htmlPlugin= require('html-webpack-plugin');
+引入后使用npm进行安装包。
+
+npm install --save-dev html-webpack-plugin
+
+最后在webpack.config.js里的plugins里进行插件配置，配置代码如下。
+
+
+new htmlPlugin({
+    minify:{
+        removeAttributeQuotes:true
+    },
+    hash:true,
+    template:'./src/index.html'
+
+})
+
+minify：是对html文件进行压缩，removeAttrubuteQuotes是却掉属性的双引号。
+hash：为了开发中js有缓存效果，所以加入hash，这样可以有效避免缓存JS。 //这是是html 里面的把js文件的引用加上字符串 -->跟js 文件没有半毛钱关系
+template：是要打包的html模版路径和文件名称。
+上边的都配置完成后，我们就可以在终端中使用webpack，进行打包。你会看到index.html文件已经被打包到我们的dist目录下了，并且自动为我们引入了路口的JS文件。
+
+总结：
+
+html文件的打包可以有效的区分开发目录和生产目录，在webpack的配置中也要搞清楚哪些配置用于生产环境，哪些配置用于开发环境，避免两种环境的配置冲突。

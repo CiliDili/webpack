@@ -1,5 +1,6 @@
 const path = require('path');
 const uglify = require('uglifyjs-webpack-plugin');
+const htmlPlugin = require('html-webpack-plugin')
 
 // __dirname:
     // 它是你的根目录--->从电脑的盘指向过来的,是一个结对路径
@@ -29,8 +30,16 @@ module.exports = {
         ]
     },
     plugins: [
-        //插件，用于生产模版和各项功能 ---> 有些需要引入,有些是webapck自带的
-        new uglify()
+            //插件，用于生产模版和各项功能 ---> 有些需要引入,有些是webapck自带的
+        //new uglify(); --> 用于生产环境
+            //npm run server 用于开发环境
+        new htmlPlugin({
+            minify: {
+                removeAttributeQuotes: true
+            },
+            hash:true,  //这是是html 里面的把js文件的引用加上字符串 -->跟js 文件没有半毛钱关系
+            template:'./src/index.html'
+        })
     ],
     devServer: {
         //配置webpack开发服务功能 ---> npm run server
