@@ -156,3 +156,42 @@ Webpack在版本1的时候很难设置多出口文件，但是在2版本开始�
 总结：
 
 这节课的内容是需要仔细消化的，不求你记住，但是要练习，因为你无论配置任何项目的Webpack都要作这些操作。你可以把本文当作一个字典，在需要的时候进行查询。
+
+<h2>第04节：配置文件： 服务和热更新</h2>
+
+作为一个前端工程师，最大的编程需求之一就是所见即所得的工具，也就是常说的热更新。这节课就学习用webpack3.6版本实现热更新效果。
+
+设置webpack-dev-server
+要执行webpack-dev-server是要先用npm install webpack-dev-server –save-dev 来进行下载的。下载好后，需要配置一下devServer。最简单的devServer配置项只有四个。先看一下代码，然后我再作解释。
+
+devServer:{
+    //设置基本目录结构
+    contentBase:path.resolve(__dirname,'dist'),
+    //服务器的IP地址，可以使用IP也可以使用localhost
+    host:'localhost',
+    //服务端压缩是否开启
+    compress:true,
+    //配置服务端口号
+    port:8888
+}
+
+contentBase:配置服务器基本运行路径，用于找到程序打包地址。
+host：服务运行地址，建议使用本机IP，这里为了讲解方便，所以用localhost。
+compress：服务器端压缩选型，一般设置为开启，如果你对服务器压缩感兴趣，可以自行学习。
+port：服务运行端口，建议不使用80，很容易被占用，这里使用了1717.
+注意：这里需要使用npm 来进行安装webpack-dev-server了， 命令如下：
+
+npm install webpack-dev-server --save-dev
+
+我们只要在package.json里配置一下scripts选项就可以执行了。
+
+"scripts": {
+    "server":"webpack-dev-server"
+ },
+配置好保存后，在终端里输入 npm  run  server  打开服务器。然后在浏览器地址栏输入http://localhost:8888 -->就可以看到结果了。
+
+支持热更新
+
+在npm run server  启动后，它是有一种监控机制的（也叫watch）。它可以监控到我们修改源码，并立即在浏览器里给我们更新。
+
+注意：这里只是我们的webpack3.6版本支持，在3.5版本时要支持热更新还需要一些其他的操作。因为已经有了成熟的3.6版本，我就不再介绍低版本的操作方法。还有一种情况。如果你都设置好了，但是不进行热更新，可能是你系统的问题，在Linux和Ma上支持良好，在Windows上有时会出现问题。

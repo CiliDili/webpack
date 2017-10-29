@@ -26,5 +26,9 @@ module.exports = {
     ],
     devServer: {
         //配置webpack开发服务功能 ---> npm run server
+        contentBase: path.resolve(__dirname,'dist'),
+        host: '127.0.0.1',
+        compress: true,
+        port: 8888
     },
 }
