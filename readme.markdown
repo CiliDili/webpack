@@ -265,3 +265,25 @@ loaders配置：
 这个文件的详细讲解，我们在上面已经提及，如果你还是无法理解可以观看视频。
 
 总结：loader的使用也决定着你webpack水平的高低。
+
+<h2>第06节：插件配置：配置JS压缩</h2>
+
+通过五节课的学习，我相信小伙伴已经对Webpack有所入门。这节课让我们初步了解插件（plugins[ ]）的用法。
+
+压缩JS代码：
+
+现在你写的JS代码，在上线之前，都是需要进行压缩的，在没有webpack和gulp这些工具前，你可能需要找一个压缩软件或者在线进行压缩，在Webpack中可以很轻松的实现JS代码的压缩，它是通过插件的方式实现的，这里我们就先来引入一个uglifyjs-webpack-plugin(JS压缩插件，简称uglify)。
+
+注意：虽然uglifyjs是插件，但是webpack版本里默认已经集成，不需要再次安装。
+
+我们需要在webpack.config.js中引入uglifyjs-webpack-glugin插件
+
+const uglify = require('uglifyjs-webpack-plugin');
+
+引入后在plugins配置里new一个 uglify对象就可以了，代码如下。
+
+plugins:[
+    new uglify()
+],
+
+这时候在终端中使用webpack进行打包，你会发现JS代码已经被压缩了。

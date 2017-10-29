@@ -1,4 +1,5 @@
 const path = require('path');
+const uglify = require('uglifyjs-webpack-plugin');
 
 // __dirname:
     // 它是你的根目录--->从电脑的盘指向过来的,是一个结对路径
@@ -29,6 +30,7 @@ module.exports = {
     },
     plugins: [
         //插件，用于生产模版和各项功能 ---> 有些需要引入,有些是webapck自带的
+        new uglify()
     ],
     devServer: {
         //配置webpack开发服务功能 ---> npm run server
