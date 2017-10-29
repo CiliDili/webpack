@@ -1,12 +1,16 @@
 const path = require('path');
 const uglify = require('uglifyjs-webpack-plugin');
-const htmlPlugin = require('html-webpack-plugin')
+const htmlPlugin = require('html-webpack-plugin');
+const extractTextPlugin = require('extract-text-webpack-plugin');
 
 // __dirname:
     // 它是你的根目录--->从电脑的盘指向过来的,是一个结对路径
     //我们第二节打包用的是 webpack './src/entry.js' 'dist/bundle.js'
     // console.log(__dirname);
     // /Users/mr.yang/Desktop/webpack
+var website ={
+    publicPath: "http://192.168.1.27:8888/"
+}
 
 module.exports = {
     //入口文件配置项
@@ -19,23 +23,28 @@ module.exports = {
         path: path.resolve(__dirname,'dist'),
         //输出的文件名称
         filename: '[name].js',
+        publicPath: website.publicPath
     },
     module: {
         //模块：解读CSS,图片如何转换，压缩
         rules: [
             {
-               test: /\.css$/,
-               use: [ 'style-loader', 'css-loader' ]
+                test: /\.css$/,
+                // use: [ 'style-loader', 'css-loader' ]
+                use: extractTextPlugin.extract({
+                    fallback: "style-loader",
+                    use: "css-loader"
+                })
             },
             {
-                test: /\.(jpg|png|gif)/,
-                use: [{
-                    loader: 'url-loader',
-                    options: {
-                        limit: 5000
+                test:/\.(png|jpg|gif)/ ,
+                use:[{
+                    loader:'url-loader',
+                    options:{
+                        limit:500000
                     }
-                }],
-            },
+                }]
+            }
         ]
     },
     plugins: [
@@ -48,13 +57,16 @@ module.exports = {
             },
             hash:true,  //这是是html 里面的把js文件的引用加上字符串 -->跟js 文件没有半毛钱关系
             template:'./src/index.html'
-        })
+        }),
+
+        new extractTextPlugin("/css/index.css")
     ],
     devServer: {
         //配置webpack开发服务功能 ---> npm run server
         contentBase: path.resolve(__dirname,'dist'),
-        host: '127.0.0.1',
+        //host: '127.0.0.1',
+        host: '192.168.1.27',
         compress: true,
-        port: 8888
+        port: 8888,
     },
 }

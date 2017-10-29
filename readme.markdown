@@ -394,3 +394,84 @@ limit：是把小于500000B的文件打成Base64的格式，写入JS。
 2.文件大小大于limit，url-loader会调用file-loader进行处理，参数也会直接传给file-loader。
 
 也就是说，其实我们只安装一个url-loader就可以了。但是为了以后的操作方便，我们这里就顺便安装上file-loader。
+
+
+<h2>第09节：图片迈坑：CSS分离与图片路径处理</h2>
+
+通过上节课的学习已经能把小图片打包成Base64格式，也对webpack对图片的打包有个基本了解。主要学习两个知识：第一个是把CSS从JavasScript代码中分离出来，第二个是如何处理分离出来后CSS中的图片路径不对问题。
+
+CSS分离:extract-text-webpack-plugin
+
+有些简单的交互页面中，你的JavasScript页面代码会非常少，而大部分代码都在CSS中，这时候项目组长会要求把CSS单独提取出来，方便以后更改。遇到这个需求你不要惊慌，已经有大神为我们准备好了对象的插件（plugin）。
+
+extract-text-webpack-plugin
+
+这个插件就可以完美的解决我们提取CSS的需求，但是webpack官方其实并不建议这样作，他们认为CSS就应该打包到JavasScript当中以减少http的请求数。但现实中的需求往往不是我们前端能控制的，有些需求是我们不能控制的，分离CSS就是这样一个既合理由不合理的需求。
+
+npm install --save-dev extract-text-webpack-plugin
+
+引入：安装完成后，需要先用require引入。
+
+const extractTextPlugin = require("extract-text-webpack-plugin");
+
+设置Plugins：引入成功后需要在plugins属性中进行配置。这里只要new一下这个对象就可以了。
+
+ new extractTextPlugin("/css/index.css")
+
+这里的/css/index.css是分离后的路径位置。这部配置完成后，包装代码：还要修改原来我们的style-loader和css-loader。
+
+修改代码如下。
+
+module:{
+        rules: [
+            {
+              test: /\.css$/,
+              use: extractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+              })
+            },
+            {
+               test:/\.(png|jpg|gif)/ ,
+               use:[{
+                   loader:'url-loader',
+                   options:{
+                       limit:500000
+                   }
+               }]
+            }
+        ]
+},
+
+现在就可以使用webpack进行打包了。
+
+图片路径问题：
+
+利用extract-text-webpack-plugin插件很轻松的就把CSS文件分离了出来，但是CSS路径并不正确，很多小伙伴就在这里搞个几天还是没有头绪，网上也给出了很多的解决方案，我觉的最好的解决方案是使用publicPath解决，我也一直在用。
+
+publicPath：是在webpack.config.js文件的output选项中，主要作用就是处理静态文件路径的。
+
+在处理前，我们在webpack.config.js 上方声明一个对象，叫website。
+
+var website ={
+
+    publicPath:"http://'+ 本机的ip(ipconfig) +'/'+ 在devServer 里面定义的端口号(port) +'"
+}
+
+注意，这里的IP和端口，是你本机的ip或者是你devServer配置的IP和端口。
+
+然后在output选项中引用这个对象的publicPath属性。
+
+ //出口文件的配置项
+    output:{
+        //输出的路径，用了Node语法
+        path:path.resolve(__dirname,'dist'),
+        //输出的文件名称
+        filename:'[name].js',
+        publicPath:website.publicPath
+    },
+
+配置完成后，你再使用webpack命令进行打包，你会发现原来的相对路径改为了绝对路径，这样来讲速度更快。
+
+总结：我们实现了CSS的分离，并在分离后处理了图片路径不对的问题。处理路径的方法一定要充分理解，因为这在工作中经常用到。
+
