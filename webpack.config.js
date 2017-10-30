@@ -4,12 +4,12 @@ const htmlPlugin = require('html-webpack-plugin');
 const extractTextPlugin = require('extract-text-webpack-plugin');
 
 // __dirname:
-    // 它是你的根目录--->从电脑的盘指向过来的,是一个结对路径
+    // 它是你的根目录--->从电脑的盘指向过来的,是一个绝对路径
     //我们第二节打包用的是 webpack './src/entry.js' 'dist/bundle.js'
     // console.log(__dirname);
     // /Users/mr.yang/Desktop/webpack
 var website ={
-    publicPath: "http://192.168.1.27:8888/"
+    publicPath: "http://192.168.191.3:8888/"
 }
 
 module.exports = {
@@ -37,13 +37,18 @@ module.exports = {
                 })
             },
             {
-                test:/\.(png|jpg|gif)/ ,
+                test:/\.(png|jpg|gif)/,
                 use:[{
                     loader:'url-loader',
                     options:{
-                        limit:500000
+                        limit:50,
+                        outputPath: 'images/'
                     }
                 }]
+            },
+            {
+                test: /\.(htm|html)$/i,
+                use: ['html-withimg-loader']
             }
         ]
     },
@@ -65,7 +70,7 @@ module.exports = {
         //配置webpack开发服务功能 ---> npm run server
         contentBase: path.resolve(__dirname,'dist'),
         //host: '127.0.0.1',
-        host: '192.168.1.27',
+        host: '192.168.191.3',
         compress: true,
         port: 8888,
     },

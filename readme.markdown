@@ -475,3 +475,50 @@ var website ={
 
 总结：我们实现了CSS的分离，并在分离后处理了图片路径不对的问题。处理路径的方法一定要充分理解，因为这在工作中经常用到。
 
+<h2>第10节：图片迈坑：处理HTML中的图片</h2>
+
+在webpack中是建议使用标签<img>来引入图片的，但是我们作前端的人特别热衷于这种写法，国人也为此开发了一个：
+html-withimg-loader。他可以很好的处理我们在html 中引入图片的问题。因为是国人开发的，文档都是中文，所以学习起来还是比较简单的。
+
+如何把图片放到指定的文件夹下.
+
+前面的我们打包后的图片并没有放到images文件夹下，要放到images文件夹下，其实只需要配置我们的url-loader选项就可以了。
+
+
+   module:{
+        rules: [
+            {
+              test: /\.css$/,
+              use: extractTextPlugin.extract({
+                fallback: "style-loader",
+                use: "css-loader"
+              })
+            },{
+               test:/\.(png|jpg|gif)/ ,
+               use:[{
+                   loader:'url-loader',
+                   options:{
+                       limit:5000,
+                       outputPath:'images/',
+                   }
+               }]
+            }
+          ]
+    },
+
+这回你再执行打包就可以把图片打包到images文件夹里了。
+
+html-withimg-loader就是我们今天的重点了，这个插件并不是很火，也是我个人喜欢的一个小loader。解决的问题就是在hmtl文件中引入<img>标签的问题。
+
+npm i -D html-withimg-loader
+
+webpack.config.js
+
+{
+    test: /\.(htm|html)$/i,
+    use:[ 'html-withimg-loader']
+}
+
+然后在终端中可以进行打包了。你会发现images被很好的打包了。并且路径也完全正确。 (ps: 也许你打包后也不能出现images文件夹,这是看下.css或.htlm的图片路径使用base64引入到页面的,这是我们需要更改limit的限制即可)
+
+总结：我们通过8,9,10小节来踩webpack图片中的坑,在你工作中遇到图片的问题，也可以返回文章里进行对比查找问题。
