@@ -8,4 +8,10 @@
     height: 450px;
     transform: rotate(45deg);
 }
-
+#haha{
+    background: red;
+}
+body{
+    background-color: beige;
+    opacity: 0.6;
+}

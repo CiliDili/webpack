@@ -1,7 +1,9 @@
+const glob = require('glob');
 const path = require('path');
 const uglify = require('uglifyjs-webpack-plugin');
 const htmlPlugin = require('html-webpack-plugin');
 const extractTextPlugin = require('extract-text-webpack-plugin');
+const PurifyCSSPlugin = require("purifycss-webpack");
 
 // __dirname:
     // 它是你的根目录--->从电脑的盘指向过来的,是一个绝对路径
@@ -85,7 +87,10 @@ module.exports = {
         }),
 
         new extractTextPlugin("/css/index.css"),
-        new extractTextPlugin("/css/color.less")
+        new extractTextPlugin("/css/color.less"),
+        new PurifyCSSPlugin({
+            paths: glob.sync(path.join(__dirname, 'src/*.html')),
+        })
         // new extractTextPlugin("/css/color.sass")
     ],
     devServer: {

@@ -652,3 +652,49 @@ module.exports = {
     }
 
 总结:postcss还有很多功能，这里给出postcss-loader的github地址：https://github.com/postcss/postcss-loader
+
+
+<h2>第14节：CSS进阶：消除未使用的CSS</h2>
+
+我们可能无暇关注CSS样式，造成很多CSS的冗余。这节用webpack消除未使用的CSS。
+
+
+PurifyCSS
+使用PurifyCSS可以大大减少CSS冗余，比如我们经常使用的BootStrap(140KB)就可以减少到只有35KB大小。这在实际开发当中是非常有用的。
+
+安装PurifyCSS-webpack
+从名字你就可以看出这是一个插件，而不是loader。所以这个需要安装还需要引入。 PurifyCSS-webpack要依赖于purify-css这个包，所以这两个都需要安装。
+
+npm i -D purifycss-webpack purify-css
+
+引入glob
+
+因为我们需要同步检查html模板，所以我们需要引入node的glob对象使用。在webpack.config.js文件头部引入glob。
+
+同样在webpack.config.js文件头部引入purifycss-webpack
+
+const PurifyCSSPlugin = require("purifycss-webpack");
+
+引入完成后我们需要在webpack.config.js里配置plugins。
+
+plugins:[
+    //new uglify()
+    new htmlPlugin({
+        minify:{
+            removeAttrubuteQuotes:true
+        },
+        hash:true,
+        template:'./src/index.html'
+
+    }),
+    new extractTextPlugin("css/index.css"),
+
+    new PurifyCSSPlugin({
+         // Give paths to parse for rules. These should be absolute!
+        paths: glob.sync(path.join(__dirname, 'src/*.html')),
+    })
+
+]
+这里配置了一个paths，主要是需找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了。
+
+用webpack打包，你会发现没用的CSS已经自动给你删除掉了。在工作中记得一定要配置这个plugins，因为这决定你代码的质量，非常有用。
