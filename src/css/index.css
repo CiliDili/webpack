@@ -6,4 +6,6 @@
     background-image: url("../images/1.png");
     width: 300px;
     height: 450px;
+    transform: rotate(45deg);
 }
+

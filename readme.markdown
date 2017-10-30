@@ -599,3 +599,56 @@ sass-loader:  --> npm install --save-dev sass-loader
         })
      }
 其实整体过程和less的使用差不多，希望你能在工作中开始使用sass，并写出漂亮的css代码。
+
+
+<h2>第13节：CSS进阶：自动处理CSS3属性前缀</h2>
+
+(我发现这是是有问题的  --> 目前只加了 -webkit- 只做了Chrome和Safari的兼容有什么用!!!!)
+
+/*transform:rotate(7deg);*/
+/*-ms-transform:rotate(7deg); 	!* IE 9 *!*/
+/*-moz-transform:rotate(7deg); 	!* Firefox *!*/
+/*-webkit-transform:rotate(7deg); !* Safari 和 Chrome *!*/
+/*-o-transform:rotate(7deg); 	!* Opera *!*/
+
+CSS3已经成了前端的必会技能，但是你一定为那些属性需要加前缀，那些属性不需要加前缀而头疼。如何通过postcss-loader给css3属性自动添加前缀。
+
+为了浏览器的兼容性，有时候我们必须加入-webkit,-ms,-o,-moz这些前缀。目的就是让我们写的页面在每个浏览器中都可以顺利运行。
+
+PostCSS
+
+PostCSS是一个CSS的处理平台，它可以帮助你的CSS实现更多的功能，但是今天我们就通过其中的一个加前缀的功能，初步了解一下PostCSS。
+
+需要安装两个包postcss-loader 和autoprefixer（自动添加前缀的插件）: npm install --save-dev postcss-loader autoprefixer
+
+postCSS推荐在项目根目录（和webpack.config.js同级），建立一个postcss.config.js文件。
+
+postcss.config.js
+
+module.exports = {
+    plugins: [
+        require('autoprefixer')
+    ]
+}
+这就是对postCSS一个简单的配置，引入了autoprefixer插件。让postCSS拥有添加前缀的能力，它会根据 can i use 来增加相应的css3属性前缀。
+
+对postcss.config.js配置完成后，我们还需要编写我们的loader配置。
+
+    {
+        test: /\.css$/,
+        use: extractTextPlugin.extract({
+            fallback: "style-loader",
+            use: [
+                {
+                    loader: 'css-loader',
+                    options: { importLoaders: 1 }
+                },
+                {
+                    loader: "postcss-loader"
+                }
+            ]
+        })
+
+    }
+
+总结:postcss还有很多功能，这里给出postcss-loader的github地址：https://github.com/postcss/postcss-loader

@@ -9,7 +9,7 @@ const extractTextPlugin = require('extract-text-webpack-plugin');
     // console.log(__dirname);
     // /Users/mr.yang/Desktop/webpack
 var website ={
-    publicPath: "http://192.168.191.3:8888/"
+    publicPath: "http://127.0.0.1:8888/"
 }
 
 module.exports = {
@@ -29,19 +29,33 @@ module.exports = {
         //模块：解读CSS,图片如何转换，压缩
         rules: [
             {
-                test: /\.(css|less)$/,
+                test: /\.css$/,
                 use: extractTextPlugin.extract({
+                    fallback: "style-loader",
                     use: [
                         {
-                            loader: "css-loader"
-                        }, {
-                            loader: "less-loader"
+                            loader: 'css-loader',
+                            options: { importLoaders: 1 }
+                        },
+                        {
+                            loader: "postcss-loader"
                         }
-                    ],
-                    // use style-loader in development
+                    ]
+                })
+
+            },
+            {
+                test: /\.less$/,
+                use: extractTextPlugin.extract({
+                    use: [{
+                        loader: "css-loader"
+                    }, {
+                        loader: "less-loader"
+                    }],
                     fallback: "style-loader"
                 })
-            },
+            }
+            ,
             {
                 test:/\.(png|jpg|gif)/,
                 use:[{
@@ -78,7 +92,7 @@ module.exports = {
         //配置webpack开发服务功能 ---> npm run server
         contentBase: path.resolve(__dirname,'dist'),
         //host: '127.0.0.1',
-        host: '192.168.191.3',
+        host: '127.0.0.1',
         compress: true,
         port: 8888,
     },
