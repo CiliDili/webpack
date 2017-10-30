@@ -522,3 +522,47 @@ webpack.config.js
 然后在终端中可以进行打包了。你会发现images被很好的打包了。并且路径也完全正确。 (ps: 也许你打包后也不能出现images文件夹,这是看下.css或.htlm的图片路径使用base64引入到页面的,这是我们需要更改limit的限制即可)
 
 总结：我们通过8,9,10小节来踩webpack图片中的坑,在你工作中遇到图片的问题，也可以返回文章里进行对比查找问题。
+
+
+<h2>第11节：CSS进阶：Less文件的打包和分离</h2>
+
+Less文件如何打包和分离。Less 是一门 CSS 预处理语言，它扩展了 CSS 语言，增加了变量、Mixin、函数等特性，使 CSS 更易维护和扩展。
+
+要使用Less，我们要首先安装Less的服务，当然也是用npm来进行安装。
+
+npm install --save-dev less
+
+还需要安装Less-loader用来打包使用。 npm install --save-dev less-loader
+
+写loader配置：
+
+安装好后，需要在webpack.config.js里编写loader配置，当然要想正确解析成CSS，还是需要style-loader和css-loader的帮助，但是这两个loader前边已经讲过了，所以在这里就不重复了，如果你还对这两个loader不熟悉，那自行回去补前边的第五节吧。
+
+webpack.config.js
+
+编写一个less文件
+
+引入到我们entery.js文件中
+
+import less from './css/black.less';
+
+这样我们就可以把less文件进行打包了。我们可以使用webpack命令打包试一试。
+
+我们之前讲了extract-text-webpack-plugin这个插件，想把Less文件分离出来的方法跟这个几乎一样，之前的我们在第09节中讲过，这里我们就只讲less的loader配置方法。（此处建议收看视频）
+
+    {
+        test: /\.(css|less)/,
+        use: extractTextPlugin.extract({
+            use: [{
+                loader: "css-loader"
+            }, {
+                loader: "less-loader"
+            }],
+            // use style-loader in development
+            fallback: "style-loader"
+        })
+    }
+
+配置好后，你会发现less被分离到了index.css文件里。 ---> 用new extractTextPlugin('源文件路径'),进行分离
+
+总结：Less是非常好的CSS扩展，但是Less得转换稍显麻烦，好的是webpack为我们提供了简单轻松的转换方法。

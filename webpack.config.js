@@ -29,11 +29,17 @@ module.exports = {
         //模块：解读CSS,图片如何转换，压缩
         rules: [
             {
-                test: /\.css$/,
-                // use: [ 'style-loader', 'css-loader' ]
+                test: /\.(css|less)$/,
                 use: extractTextPlugin.extract({
-                    fallback: "style-loader",
-                    use: "css-loader"
+                    use: [
+                        {
+                            loader: "css-loader"
+                        }, {
+                            loader: "less-loader"
+                        }
+                    ],
+                    // use style-loader in development
+                    fallback: "style-loader"
                 })
             },
             {
@@ -64,7 +70,9 @@ module.exports = {
             template:'./src/index.html'
         }),
 
-        new extractTextPlugin("/css/index.css")
+        new extractTextPlugin("/css/index.css"),
+        new extractTextPlugin("/css/color.less")
+        // new extractTextPlugin("/css/color.sass")
     ],
     devServer: {
         //配置webpack开发服务功能 ---> npm run server
