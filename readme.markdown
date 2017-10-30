@@ -566,3 +566,36 @@ import less from './css/black.less';
 配置好后，你会发现less被分离到了index.css文件里。 ---> 用new extractTextPlugin('源文件路径'),进行分离
 
 总结：Less是非常好的CSS扩展，但是Less得转换稍显麻烦，好的是webpack为我们提供了简单轻松的转换方法。
+
+
+<h2>第12节：CSS进阶：SASS文件的打包和分离</h2>
+
+安装SASS打包的loader
+
+这里需要 在项目目录下用npm安装两个包。node-sass和sass-loader
+
+node-sass：因为sass-loader依赖于node-sass，所以需要先安装
+
+node-sass  --> npm install --save-dev node-sass
+
+sass-loader:  --> npm install --save-dev sass-loader
+
+编写loader配置
+
+需要注意的是loader的加载要有先后顺序。
+
+把SASS文件分离。
+
+    {
+        test: /\.(css|less|sass)$/,
+        use: extractTextPlugin.extract({
+            use: [{
+                loader: "css-loader"
+            }, {
+                loader: "sass-loader"
+            }],
+            // use style-loader in development
+            fallback: "style-loader"
+        })
+     }
+其实整体过程和less的使用差不多，希望你能在工作中开始使用sass，并写出漂亮的css代码。
