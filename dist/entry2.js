@@ -79,3 +79,4 @@ document.getElementById('title').style.backgroundColor = 'yellow';
 /***/ })
 
 /******/ });
+//# sourceMappingURL=entry2.js.map

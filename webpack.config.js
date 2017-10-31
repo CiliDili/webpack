@@ -15,6 +15,7 @@ var website ={
 }
 
 module.exports = {
+    devtool: 'source-map',
     //入口文件配置项
     entry: {
         entry: './src/entry.js',
