@@ -65,23 +65,28 @@
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_index_css__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__css_index_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__css_index_css__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_color_less__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__css_color_less___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__css_color_less__);
+
+
+var _index = __webpack_require__(1);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _color = __webpack_require__(2);
+
+var _color2 = _interopRequireDefault(_color);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import sass from './css/color.sass';
+//测试15小节内容 babel 转译
 /**
  * Created by mr.yang on 2017/10/28.
  */
-
-
-// import sass from './css/color.sass';
-
-document.getElementById('title').innerHTML='Hello Webpack--webpack打包';
-
+var esText = 'Hello Webpack--webpack打包';
+document.getElementById('title').innerHTML = esText;
 
 /***/ }),
 /* 1 */

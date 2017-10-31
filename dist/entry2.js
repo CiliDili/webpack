@@ -66,7 +66,10 @@
 /******/ ({
 
 /***/ 3:
-/***/ (function(module, exports) {
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /**
  * Created by mr.yang on 2017/10/29.

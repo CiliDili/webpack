@@ -698,3 +698,56 @@ plugins:[
 这里配置了一个paths，主要是需找html模板，purifycss根据这个配置会遍历你的文件，查找哪些css被使用了。
 
 用webpack打包，你会发现没用的CSS已经自动给你删除掉了。在工作中记得一定要配置这个plugins，因为这决定你代码的质量，非常有用。
+
+
+<h2>第15节：给webpack增加babel支持</h2>
+
+在前端开发中都开始使用ES6的语法了，虽然说webpack3增加了一些ES6的转换支持，但是实际效果不是很好。
+
+Babel是什么？--> Babel其实是一个编译JavaScript的平台，它的强大之处表现在可以通过便宜帮你达到以下目的：
+
+使用下一代的javaScript代码(ES6,ES7….)，即使这些标准目前并未被当前的浏览器完全支持。
+
+Babel的安装与配置:
+
+Babel其实是几个模块化的包，其核心功能位于称为babel-core的npm包中，webpack可以把其不同的包整合在一起使用，对于每一个你需要的功能或拓展，你都需要安装单独的包（用得最多的是解析ES6的babel-preset-es2015包和解析JSX的babel-preset-react包）。
+
+我们先一次性安装这些依赖包
+
+
+cnpm install --save-dev babel-core babel-loader babel-preset-es2015 babel-preset-react
+
+    {
+        test:/\.(jsx|js)$/,
+        use:{
+            loader:'babel-loader',
+            options:{
+                presets:[
+                    "es2015","react"
+                ]
+            }
+        },
+        exclude:/node_modules/
+    }
+
+现在你已经可以用webapck转换ES6的语法兼容各个浏览器了。
+
+上面的代码使用了ES6的let声明方法。如果你不使用Babel来进行转换，你会发现打包出来的js代码没有作兼容处理，使用了Babel转换的代码是进行处理过的。
+
+.babelrc配置  --> 提取 babel
+
+虽然Babel可以直接在webpack.config.js中进行配置，
+
+ENV：
+
+现在官方推荐使用的是babel-preset-env,那我们为了紧跟潮流，描述下env的配置方法。
+
+npm install --save-devv babel-preset-env
+
+然后修改.babelrc里的配置文件。其实只要把之前的es2015换成env就可以了。
+
+{
+    "presets":["react","env"]
+}
+
+总结：在实际工作中还是要安装Babel的，这样能更好的兼容每种浏览器，而把Babel的配置文件分解出来是最好的选择。
