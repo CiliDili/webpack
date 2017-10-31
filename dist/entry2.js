@@ -63,20 +63,67 @@
 /******/ 	return __webpack_require__(__webpack_require__.s = 3);
 /******/ })
 /************************************************************************/
-/******/ ({
-
-/***/ 3:
+/******/ ([
+/* 0 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
+var _index = __webpack_require__(1);
+
+var _index2 = _interopRequireDefault(_index);
+
+var _color = __webpack_require__(2);
+
+var _color2 = _interopRequireDefault(_color);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+// import sass from './css/color.sass';
+//测试15小节内容 babel 转译
 /**
- * Created by mr.yang on 2017/10/29.
+ * Created by mr.yang on 2017/10/28.
  */
+var esText = 'Hello Webpack--webpack打包';
+document.getElementById('title').innerHTML = esText;
+
+function night() {
+  alert('我要办张卡,你觉得那');
+}
+module.exports = night;
+
+/***/ }),
+/* 1 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 3 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var _entry = __webpack_require__(0);
+
+var _entry2 = _interopRequireDefault(_entry);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+(0, _entry2.default)(); /**
+                         * Created by mr.yang on 2017/10/29.
+                         */
+
 document.getElementById('title').style.backgroundColor = 'yellow';
 
 /***/ })
-
-/******/ });
+/******/ ]);
 //# sourceMappingURL=entry2.js.map

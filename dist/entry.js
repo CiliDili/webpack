@@ -88,6 +88,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var esText = 'Hello Webpack--webpack打包';
 document.getElementById('title').innerHTML = esText;
 
+function night() {
+  alert('我要办张卡,你觉得那');
+}
+module.exports = night;
+
 /***/ }),
 /* 1 */
 /***/ (function(module, exports) {

@@ -5,14 +5,14 @@ const htmlPlugin = require('html-webpack-plugin');
 const extractTextPlugin = require('extract-text-webpack-plugin');
 const PurifyCSSPlugin = require("purifycss-webpack");
 
+const entry = require("./webpack_config/entry_webpack.js")
+
 // __dirname:
     // 它是你的根目录--->从电脑的盘指向过来的,是一个绝对路径
     //我们第二节打包用的是 webpack './src/entry.js' 'dist/bundle.js'
     // console.log(__dirname);
     // /Users/mr.yang/Desktop/webpack
-var website ={
-    publicPath: "http://127.0.0.1:8888/"
-}
+console.log(process.env.type);
 if(process.env.type== "build"){
     var website ={
         publicPath: "http://127.0.0.1:8888/"
@@ -26,10 +26,7 @@ if(process.env.type== "build"){
 module.exports = {
     devtool: 'source-map',
     //入口文件配置项
-    entry: {
-        entry: './src/entry.js',
-        entry2: './src/entry2.js'
-    },
+    entry: entry.path,
     output:{
         //输出路径 用了node的语法
         path: path.resolve(__dirname,'dist'),

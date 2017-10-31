@@ -8,3 +8,7 @@ import less from './css/color.less';
 let esText = 'Hello Webpack--webpack打包';
 document.getElementById('title').innerHTML= esText;
 
+function night() {
+    alert('我要办张卡,你觉得那')
+}
+module.exports = night;
