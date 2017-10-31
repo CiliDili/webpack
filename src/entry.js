@@ -12,3 +12,7 @@ function night() {
     alert('我要办张卡,你觉得那')
 }
 module.exports = night;
+import $ from 'jquery';
+$('#title').css({
+    'fontSize': '30px'
+    })

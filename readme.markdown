@@ -848,10 +848,19 @@ Mac下的package.json设置 --> MAC电脑下需要把set换成export，并且要
 
 把你想导出的文件直接 module.exports 进行导出。看哪里有需要 直接进行 import .... from '....js' ! 进行接收。
 
-
 webpack模块
+
 为了让大家容易看懂，我把webpack.config.js中的entry入口文件进行模块化设置，单独拿出来制作成一个模块。
 
 首先在根目录，新建一个webpack_config文件夹，然后新建entry_webpack.js文件，代码如下：
 
 总结：模块化在实际工作中是必不可少的操作，但是现在的webpack教程还很少讲到，大家一定要重视这节。
+
+
+<h2>第19节：实战技巧：优雅打包第三方类库</h2>
+
+这一节: 我还是用白话文进行介绍: 分别就是引入jquery 的两种方式:
+
+方式一: 通过 impot $ from 'jquery'  此处的jquery 在node_mmodules 文件里面不需要配置路径;
+
+方式二: 通过 用plugin引入 ProvidePlugin是webpack自带的插件  所以就直接 new ProvidePlugin({$: 'jquery'}) 即可;
