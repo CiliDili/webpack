@@ -784,3 +784,59 @@ module.exports = {
 }
 
 总结：调试在开发中也是必不可少的，但是一定要记得在上线前一定要修改webpack配置，在打出上线包。
+
+
+<h2>第17节：实战技巧：开发和生产并行设置</h2>
+
+依赖不同
+一个项目中是有开发环境和生产环境的，这两个环境的依赖也是不同的。
+
+开发依赖：只在开发中用来帮助你进行开发，简化代码或者生成兼容设置的依赖包。你可以打开package.json来查看，devDependencies的下面的这些包为开发使用的包。这些包在生产环境中并没有用处。
+
+生产依赖：就是比如我们的js使用了jquery，jquery的程序要在浏览器端起作用，也就是说我们最终的程序也需要这个包，这就是生产依赖。这些包在dependencies中。
+
+npm install jquery --save
+
+安装完成后，它存在于package.json的dependencies中，也就是说它是生产环境需要依赖的包（上线时需要的依赖包）。
+
+安装完成后，它存在于package.json的devDependencies中，也就是说它是开发环境中需要的，上线并不需要这个包的依赖。
+
+安装全部项目依赖包： --> npm install
+
+安装生产环境依赖包：--> npm install --production
+
+配置生产和开发并行
+
+我们在以前的配置中设置了一个变量website，用于静态资源正确找到路径。那如果生产环境和开发环境不一样，而且我们需要来回切换，这时候我们需要更好的设置方法。
+
+修改package.json命令
+
+其实就是添加一个dev设置，并通过环境变量来进行区分，下面是package.json里的值。
+
+ "scripts": {
+    "server": "webpack-dev-server --open",
+    "dev":"set type=dev&webapck",
+    "build": "set type=build&webpack"
+  },
+
+修改webpack.config.js文件
+
+可以利用node的语法来读取type的值，然后根据type的值用if–else判断。
+
+    if(process.env.type== "build"){
+        var website={
+            publicPath:"http://192.168.0.104:1717/"
+        }
+    }else{
+        var website={
+            publicPath:"http://cdn.jspang.com/"
+        }
+    }
+
+Mac下的package.json设置 --> MAC电脑下需要把set换成export，并且要多加一个&符，具体代码如下。
+
+  "scripts": {
+    "server": "webpack-dev-server --open",
+    "dev":"export type=dev&&webpack",
+    "build": "export type=build&&webpack"
+  },

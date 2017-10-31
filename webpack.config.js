@@ -13,6 +13,15 @@ const PurifyCSSPlugin = require("purifycss-webpack");
 var website ={
     publicPath: "http://127.0.0.1:8888/"
 }
+if(process.env.type== "build"){
+    var website ={
+        publicPath: "http://127.0.0.1:8888/"
+    }
+}else{
+    var website ={
+        publicPath: "http://192.168.1.27:8888/"
+    }
+}
 
 module.exports = {
     devtool: 'source-map',
@@ -110,7 +119,7 @@ module.exports = {
         //配置webpack开发服务功能 ---> npm run server
         contentBase: path.resolve(__dirname,'dist'),
         //host: '127.0.0.1',
-        host: '127.0.0.1',
+        host: '192.168.1.27',
         compress: true,
         port: 8888,
     },
